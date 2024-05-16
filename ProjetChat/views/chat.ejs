@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/stylesheets/style.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <h1 class="channels_title"><a href="channels">Chat IRC</a></h1>
+        <nav class="nav">
+            <ul class="nav_list">
+                <li><a href="profil">Profil</a></li>
+                <li><a href="channels">Groupes</a></li>
+                <li><a href="private_chat">Chat</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="chat_area">
+            <ul id="messages">
+            <!-- les msg apparaitront ici -->
+            </ul>
+        </div>        
+        <form class="chat_form" id="chat_form">
+            <input type="text" id="chat_input" autocomplete="off" placeholder="Tape ton message...">
+            <button type="submit">Envoyer</button>
+            <button id="toggle-btn">Disconnect</button>
+        </form>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+            const socket = io({
+                auth: {
+                serverOffset: 0
+                }
+            });
+
+            // évènement chat msg via le server
+            const form = document.getElementById("chat_form");
+            console.log(form)
+            const input = document.getElementById("chat_input");
+            const messages = document.getElementById('messages');
+            const toggleButton = document.getElementById('toggle-btn');
+
+            // On gère l'emission de msg
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                socket.emit("chat message", input.value);
+                input.value= '';
+
+                return false;
+            })
+            // la reception
+            socket.on('chat message', (msg, socket, serverOffset) => {
+                const item = document.createElement('li');
+                item.textContent = msg
+                messages.appendChild(item);
+                // window.scrollTo(0, document.body.scrollHeight);
+                socket.auth.serverOffset = serverOffset;
+            });
+
+            // Gestion des connexions et déconnexions du chat 
+            toggleButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (socket.connected) {
+                    toggleButton.innerText = 'Connect';
+                    socket.disconnect();
+                } else {
+                    toggleButton.innerText = 'Disconnect';
+                    socket.connect();
+                }
+            });
+        //  });
+    </script>
+</body>
+</html>

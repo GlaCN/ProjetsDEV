@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/stylesheets/style.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <h1 class="channels_title"><a href="channels">Chat IRC</a></h1>
+        <nav class="nav">
+            <ul class="nav_list">
+                <li><a href="profil">Profil</a></li>
+                <li><a href="channels">Groupes</a></li>
+                <li><a href="private_chat">Chat</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+        <div class="add_channel"> 
+            <div>
+                <p>Créer un nouveau canal :</p>
+            </div>
+            <form class="add_channel-form" action="/channels" method="post">
+                <input type="text" name="channel" id="channel" placeholder="Theme...">                
+                <button type="submit" class="add_channelButton">Enregistrer</button>
+                <button id="addChannel-btn" class="add_channelButton">Ajouter</button>
+            </form>
+        </div>
+        <div class="channel_box" id="channel_box">
+            <% for (let i =0; i < dbRes.length; i++) { %>
+            <a href ="chat"><%= dbRes[i].identifier %></a>
+            <% } %>
+            <!-- Les autres canaux s'afficheront ici -->
+        </div>
+        </section>
+        <section>
+            <div class="add_channel">
+                <div>
+                    <label for="user">Débute une conversation privée : </label>
+                    <select name="user" id="user">
+                         <!-- for (let i =0; i < userRes.length; i++) { -->
+
+                        <option value="">Rechercher un utilisateur :</option>
+                        <!-- } -->
+
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" id="submit" class="add_channelButton"> Contacter</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Ajout d'un nveau channel au click sur ajouter
+        const addChannel = function() {
+            const addButton = document.getElementById('addChannel-btn');
+            const channelBox = document.getElementById("channel_box");
+
+            addButton.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const input = document.getElementById("channel");
+                const newChannel = document.createElement('a');
+                    newChannel.href = "chat";
+
+                    newChannel.textContent = input.value;
+                    channelBox.appendChild(newChannel);            
+            })
+        }
+        addChannel();
+    </script>
+</body>
+</html>

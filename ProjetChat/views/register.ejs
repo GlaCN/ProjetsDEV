@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/stylesheets/style.css">
+
+    <script defer src="../app.js"></script>
+    <script src="../controllers/userController.ts"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <h1>Créer un nouveau compte</h1>
+        <form class="register_form" id="registerForm" action="/register" method="post">
+                <div class="form-row">
+                    <label for="pseudo">Identifiant</label>
+                    <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
+                </div>
+                <div class="form-row">
+                    <label for="email">E-mail</label>
+                    <input type="text" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-row">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" placeholder="********" required>
+                </div>
+                <div class="form-row">
+                    <label for="password_confirm">Confirmation de mot de passe</label>
+                    <input type="password" name="password_confirm" id="password_confirm" placeholder="********" required>
+                </div>
+                <div class="form-button">
+                    <button id="submit" type="submit">S'inscrire</button>
+                </div>
+                <p class="msg"><a href="login">Se connecter ?</a></p>
+        </form>
+    </main>
+
+</body>
+</html>
